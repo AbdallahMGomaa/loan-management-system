@@ -21,7 +21,7 @@
           >
             <v-card>
               <v-card-title>
-                <span class="text-h5">Add fund</span>
+                <span class="text-h5">Approve Loan Request</span>
               </v-card-title>
 
               <v-card-text>
