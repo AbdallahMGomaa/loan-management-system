@@ -65,7 +65,7 @@ class UserAPI(APIView):
         try:
             username = data['username']
             password = data['password']
-            role = data['role']
+            role = int(data['role'])
             assert role in [BankUser.PROVIDER, BankUser.CUSTOMER, BankUser.EMPLOYEE]
         except:
             return Response({'error':'data is missing'}, status=400)

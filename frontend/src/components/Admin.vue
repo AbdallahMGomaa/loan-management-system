@@ -152,15 +152,20 @@
         newUser: {
           username: '',
           password: '',
-          role: 1,
+          role: null,
         },
         defaultItem: {
             username: '',
             password: '',
-            role: 1,
+            role: null,
         },
         deleteUserId: -1,
-        error: null
+        error: null,
+        roles: {
+          '1': 'provider',
+          '2': 'customer',
+          '3': 'employee'
+        }
       }),
 
 
@@ -192,13 +197,9 @@
             const response = await fetch('http://127.0.0.1:8000/api/user/', requestOptions)
             const body = await response.json()
             this.users = body
-            const roles = {
-              '1': 'provider',
-              '2': 'customer',
-              '3': 'employee'
-            }
+
             this.users.forEach((user)=>{
-              user.role = roles[user.role]
+              user.role = this.roles[user.role]
             })
         },
         deleteItem (item) {
@@ -247,6 +248,11 @@
 
         async save () {
             const access = localStorage.getItem('access')
+            const roleValues = {
+              'provider': 1,
+              'customer': 2,
+              'employee': 3
+            }
             const requestOptions = {
                 method: "POST",
                 headers: {
@@ -257,13 +263,14 @@
                     {
                         'username': this.newUser.username,
                         'password': this.newUser.password,
-                        'role': this.newUser.role
+                        'role': roleValues[this.newUser.role]
                     }
                 )
             }
             const response = await fetch('http://127.0.0.1:8000/api/user/', requestOptions)
             const body = await response.json()
             this.editedItem = body
+            this.editedItem.role = this.roles[this.editedItem.role]
             if (this.editedIndex > -1) {
                 Object.assign(this.users[this.editedIndex], this.editedItem)
             } else {
